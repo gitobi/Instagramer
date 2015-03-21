@@ -17,7 +17,8 @@ dependency [Alamofire](https://github.com/Alamofire/Alamofire) and [SwiftyJSON](
 import Instagramer
 
 var _instagramer = Instagramer(clientId: /* your application's CLIENT_ID */)
-_instagramer.mediaSearch(lat: lat, lng: lng, distance: 5000)
+
+_instagramer.mediaSearch(lat: /* latitude */, lng: /* longitude */)
     .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
         NSLog("\(bytesRead)")
     }
