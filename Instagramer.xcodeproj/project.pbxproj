@@ -6,20 +6,194 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		63F203521ABD489B00A8227F /* Instagramer.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F203511ABD489B00A8227F /* Instagramer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63F203581ABD489B00A8227F /* Instagramer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F2034C1ABD489B00A8227F /* Instagramer.framework */; };
+		63F2035F1ABD489B00A8227F /* InstagramerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F2035E1ABD489B00A8227F /* InstagramerTests.swift */; };
+		C84B12F9529242551003C091 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF125BF183D9FFB08E6D133 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		63F203591ABD489B00A8227F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F203411ABD488800A8227F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63F2034B1ABD489B00A8227F;
+			remoteInfo = Instagramer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		63F2034C1ABD489B00A8227F /* Instagramer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Instagramer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63F203501ABD489B00A8227F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63F203511ABD489B00A8227F /* Instagramer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Instagramer.h; sourceTree = "<group>"; };
+		63F203571ABD489B00A8227F /* InstagramerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		63F2035D1ABD489B00A8227F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63F2035E1ABD489B00A8227F /* InstagramerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramerTests.swift; sourceTree = "<group>"; };
+		87B2F04A987161A556424D52 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		ADF125BF183D9FFB08E6D133 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5E1842A4937A70B98F9CD12 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		63F203481ABD489B00A8227F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C84B12F9529242551003C091 /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63F203541ABD489B00A8227F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63F203581ABD489B00A8227F /* Instagramer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
+		0A6BF33E1B0F44DF6CB04088 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADF125BF183D9FFB08E6D133 /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		63F203401ABD488800A8227F = {
 			isa = PBXGroup;
 			children = (
+				63F2034E1ABD489B00A8227F /* Instagramer */,
+				63F2035B1ABD489B00A8227F /* InstagramerTests */,
+				63F2034D1ABD489B00A8227F /* Products */,
+				A7327D38D5956DD295C5C5E2 /* Pods */,
+				0A6BF33E1B0F44DF6CB04088 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
+		63F2034D1ABD489B00A8227F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63F2034C1ABD489B00A8227F /* Instagramer.framework */,
+				63F203571ABD489B00A8227F /* InstagramerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		63F2034E1ABD489B00A8227F /* Instagramer */ = {
+			isa = PBXGroup;
+			children = (
+				63F203511ABD489B00A8227F /* Instagramer.h */,
+				63F2034F1ABD489B00A8227F /* Supporting Files */,
+			);
+			path = Instagramer;
+			sourceTree = "<group>";
+		};
+		63F2034F1ABD489B00A8227F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				63F203501ABD489B00A8227F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		63F2035B1ABD489B00A8227F /* InstagramerTests */ = {
+			isa = PBXGroup;
+			children = (
+				63F2035E1ABD489B00A8227F /* InstagramerTests.swift */,
+				63F2035C1ABD489B00A8227F /* Supporting Files */,
+			);
+			path = InstagramerTests;
+			sourceTree = "<group>";
+		};
+		63F2035C1ABD489B00A8227F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				63F2035D1ABD489B00A8227F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A7327D38D5956DD295C5C5E2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				87B2F04A987161A556424D52 /* Pods.debug.xcconfig */,
+				C5E1842A4937A70B98F9CD12 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		63F203491ABD489B00A8227F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63F203521ABD489B00A8227F /* Instagramer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		63F2034B1ABD489B00A8227F /* Instagramer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63F203601ABD489B00A8227F /* Build configuration list for PBXNativeTarget "Instagramer" */;
+			buildPhases = (
+				3F6D27921BA99CEE1E0F4F69 /* Check Pods Manifest.lock */,
+				63F203471ABD489B00A8227F /* Sources */,
+				63F203481ABD489B00A8227F /* Frameworks */,
+				63F203491ABD489B00A8227F /* Headers */,
+				63F2034A1ABD489B00A8227F /* Resources */,
+				4D263DF1C7FB9E5D5E0B9552 /* Embed Pods Frameworks */,
+				BC1041A0E73D36A42131DEAC /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Instagramer;
+			productName = Instagramer;
+			productReference = 63F2034C1ABD489B00A8227F /* Instagramer.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		63F203561ABD489B00A8227F /* InstagramerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63F203631ABD489B00A8227F /* Build configuration list for PBXNativeTarget "InstagramerTests" */;
+			buildPhases = (
+				63F203531ABD489B00A8227F /* Sources */,
+				63F203541ABD489B00A8227F /* Frameworks */,
+				63F203551ABD489B00A8227F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63F2035A1ABD489B00A8227F /* PBXTargetDependency */,
+			);
+			name = InstagramerTests;
+			productName = InstagramerTests;
+			productReference = 63F203571ABD489B00A8227F /* InstagramerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		63F203411ABD488800A8227F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0620;
+				TargetAttributes = {
+					63F2034B1ABD489B00A8227F = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					63F203561ABD489B00A8227F = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
 			};
 			buildConfigurationList = 63F203441ABD488800A8227F /* Build configuration list for PBXProject "Instagramer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -29,23 +203,314 @@
 				en,
 			);
 			mainGroup = 63F203401ABD488800A8227F;
+			productRefGroup = 63F2034D1ABD489B00A8227F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				63F2034B1ABD489B00A8227F /* Instagramer */,
+				63F203561ABD489B00A8227F /* InstagramerTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		63F2034A1ABD489B00A8227F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63F203551ABD489B00A8227F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3F6D27921BA99CEE1E0F4F69 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4D263DF1C7FB9E5D5E0B9552 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC1041A0E73D36A42131DEAC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		63F203471ABD489B00A8227F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63F203531ABD489B00A8227F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63F2035F1ABD489B00A8227F /* InstagramerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		63F2035A1ABD489B00A8227F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63F2034B1ABD489B00A8227F /* Instagramer */;
+			targetProxy = 63F203591ABD489B00A8227F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		63F203451ABD488800A8227F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		63F203461ABD488800A8227F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+			};
+			name = Release;
+		};
+		63F203611ABD489B00A8227F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87B2F04A987161A556424D52 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Instagramer/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		63F203621ABD489B00A8227F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5E1842A4937A70B98F9CD12 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Instagramer/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		63F203641ABD489B00A8227F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InstagramerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		63F203651ABD489B00A8227F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InstagramerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -57,6 +522,24 @@
 			buildConfigurations = (
 				63F203451ABD488800A8227F /* Debug */,
 				63F203461ABD488800A8227F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63F203601ABD489B00A8227F /* Build configuration list for PBXNativeTarget "Instagramer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63F203611ABD489B00A8227F /* Debug */,
+				63F203621ABD489B00A8227F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63F203631ABD489B00A8227F /* Build configuration list for PBXNativeTarget "InstagramerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63F203641ABD489B00A8227F /* Debug */,
+				63F203651ABD489B00A8227F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
