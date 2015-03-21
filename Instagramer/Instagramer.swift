@@ -35,17 +35,25 @@ public class InstagramerRequest<T: InstagramerModel> {
                 _swiftyJson = SwiftyJSON.JSON(_data!)
             }
             callback(json: _swiftyJson)
-            return
         }
         return self
     }
+
+    var _internalCallbackComplete : ((models: [T]) -> Void)?
+    internal func internalComplete(callback: ((models: [T]) -> Void)) {
+        _internalCallbackComplete = callback
+    }
     
     public func complete(callback: ((models: [T]) -> Void)) -> Self {
-        completeJSON { [weak self] (json: SwiftyJSON.JSON) in
+        var internalCallbackComplete = _internalCallbackComplete
+        completeJSON { (json: SwiftyJSON.JSON) in
             var models = InstagramerModelCreate<T>.create(json)
+            if let valid = internalCallbackComplete {
+                    valid(models: models)
+            }
             callback(models: models)
-            return
         }
+        
         return self
     }
 
@@ -64,6 +72,7 @@ public class InstagramerUser: InstagramerModel {
         _profile_picture = json["profile_picture"].stringValue
     }
 }
+
 public class InstagramerLocation: InstagramerModel {
     var _id         : String
     var _name       : String
@@ -77,32 +86,39 @@ public class InstagramerLocation: InstagramerModel {
         _longitude = json["longitude"].doubleValue
     }
 }
+
 public class InstagramerMediaDitail: InstagramerModel {
     var _url    : String
-    var _width  : Float
-    var _height : Float
+    var _width  : Int
+    var _height : Int
+    
     public var url      : String { return _url }
-    public var width    : Float  { return _width }
-    public var height   : Float  { return _height }
+    public var width    : Int    { return _width }
+    public var height   : Int    { return _height }
+    
     init(json: JSON){
         _url    = json["url"].stringValue
-        _width  = json["width"].floatValue
-        _height = json["height"].floatValue
+        _width  = json["width"].intValue
+        _height = json["height"].intValue
     }
 }
+
 public class InstagramerMediaResolution: InstagramerModel {
     var _low_resolution         : InstagramerMediaDitail
     var _thumbnail              : InstagramerMediaDitail
     var _standard_resolution    : InstagramerMediaDitail
+    
     public var low              : InstagramerMediaDitail { return _low_resolution }
     public var thumbnail        : InstagramerMediaDitail { return _thumbnail }
     public var standard         : InstagramerMediaDitail { return _standard_resolution }
+    
     init(json: JSON){
         _low_resolution      = InstagramerMediaDitail(json: json["low_resolution"])
         _thumbnail           = InstagramerMediaDitail(json: json["thumbnail"])
         _standard_resolution = InstagramerMediaDitail(json: json["standard_resolution"])
     }
 }
+
 public class InstagramerMedia: InstagramerModel {
     var _attribution	: String?
     var _videos         : InstagramerMediaResolution?
@@ -110,7 +126,7 @@ public class InstagramerMedia: InstagramerModel {
     var _location       : InstagramerLocation
     var _comments       : JSON
     var _filter         : String
-    var _created_time   : String
+    var _created_time   : Int
     var _link           : String
     var _likes          : JSON
     var _images         : InstagramerMediaResolution
@@ -119,7 +135,9 @@ public class InstagramerMedia: InstagramerModel {
     var _type           : String
     var _id             : String
     var _user           : InstagramerUser
-    public var images   : InstagramerMediaResolution { return _images }
+    
+    public var createdTime  : Int { return _created_time }
+    public var images       : InstagramerMediaResolution { return _images }
     
     init(json: JSON){
         _attribution    = json["attribution"].string
@@ -127,7 +145,7 @@ public class InstagramerMedia: InstagramerModel {
         _location       = InstagramerLocation(json: json["location"])
         _comments       = json["comments"]
         _filter         = json["filter"].stringValue
-        _created_time   = json["created_time"].stringValue
+        _created_time   = json["created_time"].intValue
         _link           = json["link"].stringValue
         _likes          = json["likes"]
         _images         = InstagramerMediaResolution(json: json["images"])
@@ -144,19 +162,21 @@ public class InstagramerMedia: InstagramerModel {
     }
     
     override public var description: String {
-        var str = "\(_id),\(_link)"
+        var str = "\(_created_time),\(_id),\(_link)"
         return str
     }
 
 }
+
 public class InstagramerModel: NSObject {
     
 }
+
 public class InstagramerModelCreate<T: InstagramerModel> {
     
     public class func create(json: JSON) -> [T] {
         var models = [T]()
-//        NSLog(json.debugDescription)
+        NSLog(json.debugDescription)
         for (index: String, subJson: JSON) in json["data"] {
 //            NSLog(subJson.debugDescription)
             let type = subJson["type"].string
@@ -184,7 +204,7 @@ public class Instagramer {
         _clientId = clientId
     }
     
-    public func accessParams() -> [String: AnyObject] {
+    private func accessParams() -> [String: AnyObject] {
         if let accessToken = _accessToken {
             return ["access_token": accessToken]
         } else {
@@ -193,9 +213,49 @@ public class Instagramer {
     }
     
     public func mediaPopuler() -> InstagramerRequest<InstagramerMedia> {
-        var _partialURL = "media/popular"
-        return request(_partialURL, parameters: accessParams())
+        var partialURL = "media/popular"
+        return request(partialURL, parameters: accessParams())
         
+    }
+    
+    var _lastRequestMinTimestamp : Int?
+    var _lastRequestMaxTimestamp : Int?
+    var _lastRequestGettingMinTimestamp : Int?
+    var _lastRequestGettingMaxTimestamp : Int?
+    
+    
+    public func mediaSearch(
+        lat: Double? = nil
+        , lng: Double? = nil
+        , distance: Int? = nil
+        , minTimestamp: Int? = nil
+        , maxTimestamp: Int? = nil
+    ) -> InstagramerRequest<InstagramerMedia> {
+        
+        var partialURL = "media/search"
+        var parameters = accessParams()
+        if let valid = lat { parameters["lat"] = lat }
+        if let valid = lng { parameters["lng"] = lng }
+        if let valid = distance { parameters["distance"] = distance }
+        if let valid = minTimestamp {
+            parameters["min_timestamp"] = minTimestamp
+            _lastRequestMinTimestamp = minTimestamp
+        }
+        if let valid = maxTimestamp {
+            parameters["max_timestamp"] = maxTimestamp
+            _lastRequestMaxTimestamp = maxTimestamp
+        }
+        
+        var _request : InstagramerRequest<InstagramerMedia> = request(partialURL, parameters: parameters)
+        _request.internalComplete { [weak self] (_models: [InstagramerMedia]) in
+            if 0 < _models.count {
+                self?._lastRequestGettingMinTimestamp = _models[0].createdTime
+                self?._lastRequestGettingMaxTimestamp = _models[_models.count - 1].createdTime
+                
+                NSLog("getting \(self?._lastRequestGettingMinTimestamp) ~ \(self?._lastRequestGettingMaxTimestamp)")
+            }
+        }
+        return _request
     }
     
     private func request<T: InstagramerModel>(partialURL: String, parameters: [String: AnyObject]?) -> InstagramerRequest<T> {
