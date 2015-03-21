@@ -11,6 +11,7 @@
 		63F203581ABD489B00A8227F /* Instagramer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F2034C1ABD489B00A8227F /* Instagramer.framework */; };
 		63F2035F1ABD489B00A8227F /* InstagramerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F2035E1ABD489B00A8227F /* InstagramerTests.swift */; };
 		63F203A61ABD4F4500A8227F /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F203A51ABD4F4500A8227F /* TestClass.swift */; };
+		63F203A81ABD771D00A8227F /* Instagramer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F203A71ABD771D00A8227F /* Instagramer.swift */; };
 		C84B12F9529242551003C091 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF125BF183D9FFB08E6D133 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		63F2035D1ABD489B00A8227F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63F2035E1ABD489B00A8227F /* InstagramerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramerTests.swift; sourceTree = "<group>"; };
 		63F203A51ABD4F4500A8227F /* TestClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
+		63F203A71ABD771D00A8227F /* Instagramer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instagramer.swift; sourceTree = "<group>"; };
 		87B2F04A987161A556424D52 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		ADF125BF183D9FFB08E6D133 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5E1842A4937A70B98F9CD12 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		63F203401ABD488800A8227F = {
 			isa = PBXGroup;
 			children = (
+				63F203A71ABD771D00A8227F /* Instagramer.swift */,
 				63F2034E1ABD489B00A8227F /* Instagramer */,
 				63F2035B1ABD489B00A8227F /* InstagramerTests */,
 				63F2034D1ABD489B00A8227F /* Products */,
@@ -287,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63F203A61ABD4F4500A8227F /* TestClass.swift in Sources */,
+				63F203A81ABD771D00A8227F /* Instagramer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
