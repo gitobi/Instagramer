@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 public class InstagramerRequest<T: InstagramerModel> {
-    var _alamofireRequest: Alamofire.Request
+    private var _alamofireRequest: Alamofire.Request
     init(alamofireRequest: Alamofire.Request) {
         _alamofireRequest = alamofireRequest
     }
@@ -39,7 +39,7 @@ public class InstagramerRequest<T: InstagramerModel> {
         return self
     }
 
-    var _internalCallbackComplete : ((models: [T]) -> Void)?
+    private var _internalCallbackComplete : ((models: [T]) -> Void)?
     internal func internalComplete(callback: ((models: [T]) -> Void)) {
         _internalCallbackComplete = callback
     }
@@ -60,10 +60,10 @@ public class InstagramerRequest<T: InstagramerModel> {
 }
 
 public class InstagramerUser: InstagramerModel {
-    var _id                 : String
-    var _username           : String
-    var _full_name          : String
-    var _profile_picture    : String
+    private var _id                 : String
+    private var _username           : String
+    private var _full_name          : String
+    private var _profile_picture    : String
 
     init(json: JSON) {
         _id              = json["id"].stringValue
@@ -74,10 +74,10 @@ public class InstagramerUser: InstagramerModel {
 }
 
 public class InstagramerLocation: InstagramerModel {
-    var _id         : String
-    var _name       : String
-    var _latitude   : Double
-    var _longitude  : Double
+    private var _id         : String
+    private var _name       : String
+    private var _latitude   : Double
+    private var _longitude  : Double
     
     init(json: JSON){
         _id        = json["id"].stringValue
@@ -88,9 +88,9 @@ public class InstagramerLocation: InstagramerModel {
 }
 
 public class InstagramerMediaDitail: InstagramerModel {
-    var _url    : String
-    var _width  : Int
-    var _height : Int
+    private var _url    : String
+    private var _width  : Int
+    private var _height : Int
     
     public var url      : String { return _url }
     public var width    : Int    { return _width }
@@ -104,9 +104,9 @@ public class InstagramerMediaDitail: InstagramerModel {
 }
 
 public class InstagramerMediaResolution: InstagramerModel {
-    var _low_resolution         : InstagramerMediaDitail
-    var _thumbnail              : InstagramerMediaDitail
-    var _standard_resolution    : InstagramerMediaDitail
+    private var _low_resolution         : InstagramerMediaDitail
+    private var _thumbnail              : InstagramerMediaDitail
+    private var _standard_resolution    : InstagramerMediaDitail
     
     public var low              : InstagramerMediaDitail { return _low_resolution }
     public var thumbnail        : InstagramerMediaDitail { return _thumbnail }
@@ -120,21 +120,21 @@ public class InstagramerMediaResolution: InstagramerModel {
 }
 
 public class InstagramerMedia: InstagramerModel {
-    var _attribution	: String?
-    var _videos         : InstagramerMediaResolution?
-    var _tags           : [String]
-    var _location       : InstagramerLocation
-    var _comments       : JSON
-    var _filter         : String
-    var _created_time   : Int
-    var _link           : String
-    var _likes          : JSON
-    var _images         : InstagramerMediaResolution
-    var _users_in_photo : JSON
-    var _caption        : JSON
-    var _type           : String
-    var _id             : String
-    var _user           : InstagramerUser
+    private var _attribution	: String?
+    private var _videos         : InstagramerMediaResolution?
+    private var _tags           : [String]
+    private var _location       : InstagramerLocation
+    private var _comments       : JSON
+    private var _filter         : String
+    private var _created_time   : Int
+    private var _link           : String
+    private var _likes          : JSON
+    private var _images         : InstagramerMediaResolution
+    private var _users_in_photo : JSON
+    private var _caption        : JSON
+    private var _type           : String
+    private var _id             : String
+    private var _user           : InstagramerUser
     
     public var createdTime  : Int { return _created_time }
     public var images       : InstagramerMediaResolution { return _images }
@@ -195,10 +195,10 @@ public class InstagramerModelCreate<T: InstagramerModel> {
 
 public class Instagramer {
     
-    var _clientId : String
-    var _accessToken : String?
+    private var _clientId : String
+    private var _accessToken : String?
     
-    var _endPointURL = "https://api.instagram.com/v1/"
+    private var _endPointURL = "https://api.instagram.com/v1/"
     
     public init(clientId: String) {
         _clientId = clientId
@@ -218,10 +218,10 @@ public class Instagramer {
         
     }
     
-    var _lastRequestMinTimestamp : Int?
-    var _lastRequestMaxTimestamp : Int?
-    var _lastRequestGettingMinTimestamp : Int?
-    var _lastRequestGettingMaxTimestamp : Int?
+    private var _lastRequestMinTimestamp : Int?
+    private var _lastRequestMaxTimestamp : Int?
+    private var _lastRequestGettingMinTimestamp : Int?
+    private var _lastRequestGettingMaxTimestamp : Int?
     
     
     public func mediaSearch(
