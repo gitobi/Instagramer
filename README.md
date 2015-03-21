@@ -1,5 +1,5 @@
 # Instagramer
-Instagram api wrapper
+Instagram API wrapper
 
 ## Installation
 ### [CocoaPods](http://cocoapods.org)
