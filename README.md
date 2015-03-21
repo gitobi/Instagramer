@@ -26,7 +26,7 @@ _instagramer.mediaSearch(lat: lat, lng: lng, distance: 5000)
     }
     .complete() { (models: [InstagramerMedia]) in
         for model in models {
-            NSLog("\(models.images.thumbnail.url))
+            NSLog("\(models.images.thumbnail.url)")
         }
     }
 ```
