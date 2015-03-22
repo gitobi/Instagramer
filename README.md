@@ -13,21 +13,56 @@ dependency [Alamofire](https://github.com/Alamofire/Alamofire) and [SwiftyJSON](
 
 ## Usage
 
+`Instagramer.swift`:
 ```swift
 import Instagramer
 
-var _instagramer = Instagramer(clientId: /* your application's CLIENT_ID */)
+public class InstagramLogic {
+    class var sharedInstance : InstagramLogic {
+        struct Static {
+            static let instance = InstagramLogic()
+        }
+        return Static.instance
+    }
+    private init() { }
 
-_instagramer.mediaSearch(lat: /* latitude */, lng: /* longitude */)
-    .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-        NSLog("\(bytesRead)")
+
+    var _instagramer = Instagramer(clientId: /* your application's CLIENT_ID */)
+
+    func setup() {
+        var needCallbackURLHandle = _instagramer.oAuth(
+            "access_token_key"
+            , redirectURI: /* your application's REDIRECT_URI */
+            , permitted : { [weak self] in
+                NSLog("permited : \(self?._instagramer.oAuth.accessToken)")
+            
+            }, denied : { [weak self] in
+                NSLog("denied   : \(self?._instagramer.oAuth.errors)")
+            }
     }
-    .response() { (request, response, data, error) in
-        NSLog("\(request)")
+    
+    func oauthCallbackHandle(url: NSURL) -> Bool {
+        return _instagramer.oAuthHandle(url)
     }
-    .complete() { (models: [InstagramerMedia]) in
-        for model in models {
+    
+    func mediaSearch() {
+        _instagramer.mediaSearch(lat: /* latitude */, lng: /* longitude */)
+        .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+            NSLog("\(bytesRead)")
+        }
+        .response() { (request, response, data, error) in
+            NSLog("\(request)")
+        }
+        .complete() { (models: [InstagramerMedia]) in
+            for model in models {
             NSLog("\(models.images.thumbnail.url)")
         }
+    }
+```
+
+`AppDelegate.swift`:
+```swift
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        return InstagramLogic.sharedInstance.oauthCallbackHandle(url) {
     }
 ```
