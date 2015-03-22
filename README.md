@@ -13,14 +13,14 @@ dependency [Alamofire](https://github.com/Alamofire/Alamofire) and [SwiftyJSON](
 
 ## Usage
 
-`InstagramLogic.swift`:
+`InstagramerDemo.swift`:
 ```swift
 import Instagramer
 
-public class InstagramLogic {
-    class var sharedInstance : InstagramLogic {
+public class InstagramerDemo {
+    class var sharedInstance : InstagramerDemo {
         struct Static {
-            static let instance = InstagramLogic()
+            static let instance = InstagramerDemo()
         }
         return Static.instance
     }
@@ -63,6 +63,6 @@ public class InstagramLogic {
 `AppDelegate.swift`:
 ```swift
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        return InstagramLogic.sharedInstance.oauthCallbackHandle(url)
+        return InstagramerDemo.sharedInstance.oauthCallbackHandle(url)
     }
 ```
