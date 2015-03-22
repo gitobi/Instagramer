@@ -1,5 +1,5 @@
 # Instagramer
-Instagram api wrapper
+Instagram API wrapper
 
 ## Installation
 ### [CocoaPods](http://cocoapods.org)
@@ -16,8 +16,9 @@ dependency [Alamofire](https://github.com/Alamofire/Alamofire) and [SwiftyJSON](
 ```swift
 import Instagramer
 
-var _instagramer = Instagramer(clientId: _clientId)
-_instagramer.mediaSearch(lat: lat, lng: lng, distance: 5000)
+var _instagramer = Instagramer(clientId: /* your application's CLIENT_ID */)
+
+_instagramer.mediaSearch(lat: /* latitude */, lng: /* longitude */)
     .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
         NSLog("\(bytesRead)")
     }
