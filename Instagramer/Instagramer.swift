@@ -168,15 +168,198 @@ public class InstagramerMedia: InstagramerModel {
 
 }
 
+public class InstagramerOAuth {
+    
+    private let _oauthURL = "https://instagram.com/oauth/authorize/"
+
+    private var _clientId           : String
+    private var _accessToken        : String?
+    
+    private var _accessTokenSaveKey : String?
+
+    private var _redirectURI        : String?
+    private var _error              : String?
+    private var _error_reason       : String?
+    private var _error_description  : String?
+    
+    private var _closurePermitted   : (() -> Void)?
+    private var _closureDenied      : (() -> Void)?
+
+    public var clientId         : String { return _clientId }
+    public var accessToken      : String? { return _accessToken }
+    public var error            : String? { return _error }
+    public var errorReason      : String? { return _error_reason }
+    public var errorDescription : String? { return _error_description }
+    public var errors           : (error: String?, reason: String?, description: String?) { return (_error, _error_reason, _error_description) }
+    
+    private init(clientId: String) {
+        _clientId = clientId
+    }
+
+    internal var accessParameters : [String:AnyObject] {
+        var parameters = [String:AnyObject]()
+        if let valid = _accessToken {
+            parameters["access_token"] = _accessToken
+        } else {
+            parameters["client_id"] = _clientId
+        }
+        return parameters
+    }
+
+    internal func oauth(accessToken: String) {
+        _accessToken = accessToken
+    }
+    
+    /**
+    
+    :param: accessTokenSaveKey
+    :param: forceRefleshAccessToken
+    :param: redirectURI
+    :param: permitted
+    :param: denied
+    
+    :returns: true if need oauthHandle
+    */
+    internal func oauth(accessTokenSaveKey: String?, forceRefleshAccessToken: Bool = false, redirectURI: String, permitted: (() -> Void), denied: (() -> Void)) -> Bool {
+        _accessToken = nil
+        _accessTokenSaveKey = accessTokenSaveKey
+        if let valid = _accessTokenSaveKey {
+            // load
+            if forceRefleshAccessToken {
+                removeUserDefaults(valid)
+            }
+            if let accessToken = loadUserDefaults(valid) {
+                _accessToken = accessToken
+                // TODO need check loaded accessToken
+            }
+        }
+        
+        if nil != _accessToken {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                permitted()
+                return
+            }
+            return false
+            
+        } else {
+            // did not saved or reflash
+            _redirectURI      = redirectURI
+            _closurePermitted = permitted
+            _closureDenied    = denied
+            
+            var parameters = ["client_id=" + (_clientId ?? "")]
+            parameters.append("redirect_uri=" + redirectURI)
+            parameters.append("response_type=token")
+            var urlString = _oauthURL + "?" + join("&", parameters)
+
+    //        NSLog("\(urlString)")
+
+            var url = NSURL(string: urlString)
+            UIApplication.sharedApplication().openURL(url!)
+            
+            return true
+        }
+    }
+
+    internal func oauthHandle(callbackURL: NSURL?) -> Bool {
+
+//        NSLog("\(callbackURL)")
+        
+        var urlString = schemeHostPathWith(callbackURL)
+        if _redirectURI == urlString {
+            let parameters = parametersWith(callbackURL)
+            if let accessToken = parameters["access_token"] {
+                // access permit
+                _accessToken = accessToken
+                if let valid = _accessTokenSaveKey {
+                    saveUserDefaults(valid, value: accessToken)
+                }
+                if let valid = _closurePermitted {
+                    valid()
+                }
+                return true
+                
+            } else if let error = parameters["error"] {
+                // access denied
+                _error = error
+                _error_reason = parameters["error_reason"]
+                _error_description = parameters["error_description"]
+                if let valid = _closureDenied {
+                    valid()
+                }
+                return true
+            }
+        }
+        
+        // not specified URL
+        return false
+    }
+    
+    // MARK: URL utils
+    
+    private func parametersWith(url: NSURL?) -> [String:String] {
+        var parameters = [String:String]()
+        if let valid = url {
+            let accessTokenKey = "access_token"
+            var urlString = valid.absoluteString
+            let successPrefix = (_redirectURI ?? "") + "#\(accessTokenKey)="
+            
+//            NSLog("path:\(urlString)")
+//            NSLog("pref:\(successPrefix)")
+            
+            if let range = urlString?.rangeOfString(successPrefix) {
+                // access permit
+                urlString?.removeRange(range)
+                parameters[accessTokenKey] = urlString
+                
+            } else if let components = NSURLComponents(URL: valid, resolvingAgainstBaseURL: false) {
+                // access denied
+                for item in components.queryItems as [NSURLQueryItem] {
+                    parameters[item.name] = item.value?.stringByReplacingOccurrencesOfString("+", withString: " ")
+                }
+            }
+        }
+        return parameters
+    }
+    
+    private func schemeHostPathWith(url: NSURL?) -> String {
+        var string = ""
+        if let valid = url {
+            string = (valid.scheme! ?? "") + "://" + (valid.host! ?? "") + (valid.path! ?? "")
+        }
+        return string
+    }
+
+    // MARK: NSUserDefaults
+    private let _keyPrefix = "Instagramer_"
+    private func saveUserDefaults(key: String, value: String) {
+        let ud = NSUserDefaults.standardUserDefaults()
+        ud.setObject(value, forKey: _keyPrefix + key)
+        ud.synchronize()
+    }
+    
+    private func loadUserDefaults(key: String) -> String? {
+        let ud = NSUserDefaults.standardUserDefaults()
+        return ud.objectForKey(_keyPrefix + key) as? String
+    }
+
+    private func removeUserDefaults(key: String) {
+        let ud = NSUserDefaults.standardUserDefaults()
+        ud.removeObjectForKey(_keyPrefix + key)
+        ud.synchronize()
+    }
+
+}
+
 public class InstagramerModel: NSObject {
     
 }
 
-public class InstagramerModelCreate<T: InstagramerModel> {
+internal class InstagramerModelCreate<T: InstagramerModel> {
     
-    public class func create(json: JSON) -> [T] {
+     class func create(json: JSON) -> [T] {
         var models = [T]()
-        NSLog(json.debugDescription)
+//        NSLog(json.debugDescription)
         for (index: String, subJson: JSON) in json["data"] {
 //            NSLog(subJson.debugDescription)
             let type = subJson["type"].string
@@ -195,26 +378,34 @@ public class InstagramerModelCreate<T: InstagramerModel> {
 
 public class Instagramer {
     
-    private var _clientId : String
-    private var _accessToken : String?
+    // MARK: init and auth
     
-    private var _endPointURL = "https://api.instagram.com/v1/"
+    private var _oAuth : InstagramerOAuth
+    public var oAuth : InstagramerOAuth { return _oAuth }
     
     public init(clientId: String) {
-        _clientId = clientId
+        _oAuth = InstagramerOAuth(clientId: clientId)
+    }
+
+    public func oAuth(accessToken: String) {
+        return _oAuth.oauth(accessToken)
+    }
+
+    public func oAuth(accessTokenSaveKey: String?, forceRefleshAccessToken: Bool = false, redirectURI: String, permitted: (() -> Void), denied: (() -> Void)) -> Bool {
+        return _oAuth.oauth(accessTokenSaveKey, forceRefleshAccessToken: forceRefleshAccessToken, redirectURI: redirectURI, permitted, denied)
     }
     
-    private func accessParams() -> [String: AnyObject] {
-        if let accessToken = _accessToken {
-            return ["access_token": accessToken]
-        } else {
-            return ["client_id": _clientId]
-        }
+    public func oAuthHandle(callbackURL: NSURL?) -> Bool {
+        return _oAuth.oauthHandle(callbackURL)
     }
     
+    // MARK: request
+    
+    private let _endPointURL = "https://api.instagram.com/v1/"
+
     public func mediaPopuler() -> InstagramerRequest<InstagramerMedia> {
         var partialURL = "media/popular"
-        return request(partialURL, parameters: accessParams())
+        return request(partialURL, parameters: _oAuth.accessParameters)
         
     }
     
@@ -222,7 +413,6 @@ public class Instagramer {
     private var _lastRequestMaxTimestamp : Int?
     private var _lastRequestGettingMinTimestamp : Int?
     private var _lastRequestGettingMaxTimestamp : Int?
-    
     
     public func mediaSearch(
         lat: Double? = nil
@@ -233,7 +423,7 @@ public class Instagramer {
     ) -> InstagramerRequest<InstagramerMedia> {
         
         var partialURL = "media/search"
-        var parameters = accessParams()
+        var parameters = _oAuth.accessParameters
         if let valid = lat { parameters["lat"] = lat }
         if let valid = lng { parameters["lng"] = lng }
         if let valid = distance { parameters["distance"] = distance }
