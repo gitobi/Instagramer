@@ -206,6 +206,14 @@ public class InstagramerOAuth {
         return parameters
     }
 
+    internal func replaceAccessParameters(inout parameters : [String:AnyObject]) {
+        parameters["access_token"] = nil
+        parameters["client_id"] = nil
+        for (key, value) in accessParameters {
+            parameters[key] = value
+        }
+    }
+
     internal func oauth(accessToken: String) {
         _accessToken = accessToken
     }
@@ -296,7 +304,6 @@ public class InstagramerOAuth {
     }
     
     // MARK: URL utils
-    
     private func parametersWith(url: NSURL?) -> [String:String] {
         var parameters = [String:String]()
         if let valid = url {
@@ -409,8 +416,7 @@ public class Instagramer {
         
     }
     
-    private var _lastRequestMinTimestamp : Int?
-    private var _lastRequestMaxTimestamp : Int?
+    private var _lastMediaSearchParameters : [String:AnyObject]?
     private var _lastRequestGettingMinTimestamp : Int?
     private var _lastRequestGettingMaxTimestamp : Int?
     
@@ -421,24 +427,45 @@ public class Instagramer {
         , minTimestamp: Int? = nil
         , maxTimestamp: Int? = nil
     ) -> InstagramerRequest<InstagramerMedia> {
-        
-        var partialURL = "media/search"
-        var parameters = _oAuth.accessParameters
+        var parameters = [String:AnyObject]()
         if let valid = lat { parameters["lat"] = lat }
         if let valid = lng { parameters["lng"] = lng }
         if let valid = distance { parameters["distance"] = distance }
-        if let valid = minTimestamp {
-            parameters["min_timestamp"] = minTimestamp
-            _lastRequestMinTimestamp = minTimestamp
+        if let valid = minTimestamp { parameters["min_timestamp"] = minTimestamp }
+        if let valid = maxTimestamp { parameters["max_timestamp"] = maxTimestamp }
+        return mediaSearch(&parameters)
+    }
+    
+    public func mediaSearchNext() -> InstagramerRequest<InstagramerMedia>? {
+        if let valid = _lastMediaSearchParameters {
+            var parameters = valid
+            // TODO
+            parameters["min_timestamp"] = _lastRequestGettingMaxTimestamp
+            parameters["max_timestamp"] = nil
+            return mediaSearch(&parameters)
         }
-        if let valid = maxTimestamp {
-            parameters["max_timestamp"] = maxTimestamp
-            _lastRequestMaxTimestamp = maxTimestamp
+        return nil
+    }
+    
+    public func mediaSearchPrev() -> InstagramerRequest<InstagramerMedia>? {
+        if let valid = _lastMediaSearchParameters {
+            var parameters = valid
+            // TODO
+            parameters["min_timestamp"] = nil
+            parameters["max_timestamp"] = _lastRequestGettingMinTimestamp
+            return mediaSearch(&parameters)
         }
-        
+        return nil
+    }
+
+    private func mediaSearch(inout parameters: [String:AnyObject]) -> InstagramerRequest<InstagramerMedia> {
+
+        var partialURL = "media/search"
+        _oAuth.replaceAccessParameters(&parameters)
         var _request : InstagramerRequest<InstagramerMedia> = request(partialURL, parameters: parameters)
         _request.internalComplete { [weak self] (_models: [InstagramerMedia]) in
             if 0 < _models.count {
+                self?._lastMediaSearchParameters = parameters
                 self?._lastRequestGettingMinTimestamp = _models[0].createdTime
                 self?._lastRequestGettingMaxTimestamp = _models[_models.count - 1].createdTime
                 
