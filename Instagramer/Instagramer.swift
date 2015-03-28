@@ -34,6 +34,7 @@ public class InstagramerRequest<T: InstagramerModel> {
             } else {
                 _swiftyJson = SwiftyJSON.JSON(_data!)
             }
+//            NSLog(_swiftyJson.debugDescription)
             callback(json: _swiftyJson)
         }
         return self
@@ -135,8 +136,11 @@ public class InstagramerMedia: InstagramerModel {
     private var _type           : String
     private var _id             : String
     private var _user           : InstagramerUser
+    private var _created        : String
     
-    public var createdTime  : Int { return _created_time }
+    public var id           : String    { return _id }
+    public var createdTime  : Int       { return _created_time }
+    public var created      : String    { return _created }
     public var images       : InstagramerMediaResolution { return _images }
     
     init(json: JSON){
@@ -159,10 +163,15 @@ public class InstagramerMedia: InstagramerModel {
             _videos = InstagramerMediaResolution(json: json["videos"])
         }
         
+        // convert UNIX time
+        let date = NSDate(timeIntervalSince1970: NSTimeInterval(_created_time))
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        _created = formatter.stringFromDate(date)
     }
     
     override public var description: String {
-        var str = "\(_created_time),\(_id),\(_link)"
+        var str = "\(_created),\(_created_time),\(_id),\(_link)"
         return str
     }
 
@@ -417,8 +426,8 @@ public class Instagramer {
     }
     
     private var _lastMediaSearchParameters : [String:AnyObject]?
-    private var _lastRequestGettingMinTimestamp : Int?
-    private var _lastRequestGettingMaxTimestamp : Int?
+    private var _lastResponseMinTimestamp : Int?
+    private var _lastResponseMaxTimestamp : Int?
     
     public func mediaSearch(
         lat: Double? = nil
@@ -427,6 +436,7 @@ public class Instagramer {
         , minTimestamp: Int? = nil
         , maxTimestamp: Int? = nil
     ) -> InstagramerRequest<InstagramerMedia> {
+        
         var parameters = [String:AnyObject]()
         if let valid = lat { parameters["lat"] = lat }
         if let valid = lng { parameters["lng"] = lng }
@@ -439,8 +449,7 @@ public class Instagramer {
     public func mediaSearchNext() -> InstagramerRequest<InstagramerMedia>? {
         if let valid = _lastMediaSearchParameters {
             var parameters = valid
-            // TODO
-            parameters["min_timestamp"] = _lastRequestGettingMaxTimestamp
+            parameters["min_timestamp"] = String(_lastResponseMaxTimestamp! + 1)
             parameters["max_timestamp"] = nil
             return mediaSearch(&parameters)
         }
@@ -450,9 +459,8 @@ public class Instagramer {
     public func mediaSearchPrev() -> InstagramerRequest<InstagramerMedia>? {
         if let valid = _lastMediaSearchParameters {
             var parameters = valid
-            // TODO
             parameters["min_timestamp"] = nil
-            parameters["max_timestamp"] = _lastRequestGettingMinTimestamp
+            parameters["max_timestamp"] = String(_lastResponseMinTimestamp! - 1)
             return mediaSearch(&parameters)
         }
         return nil
@@ -462,17 +470,36 @@ public class Instagramer {
 
         var partialURL = "media/search"
         _oAuth.replaceAccessParameters(&parameters)
+        
+
+        
         var _request : InstagramerRequest<InstagramerMedia> = request(partialURL, parameters: parameters)
         _request.internalComplete { [weak self] (_models: [InstagramerMedia]) in
             if 0 < _models.count {
-                self?._lastMediaSearchParameters = parameters
-                self?._lastRequestGettingMinTimestamp = _models[0].createdTime
-                self?._lastRequestGettingMaxTimestamp = _models[_models.count - 1].createdTime
+                self?.setLastResponse(parameters, responseMinTime: _models.last!.createdTime, responseMaxTime: _models[0].createdTime)
                 
-                NSLog("getting \(self?._lastRequestGettingMinTimestamp) ~ \(self?._lastRequestGettingMaxTimestamp)")
+                var tmpMin = parameters["min_timestamp"] as String?
+                var tmpMax = parameters["max_timestamp"] as String?
+                NSLog("request  \(tmpMin) ~ \(tmpMax)")
+                NSLog("response \(self?._lastResponseMinTimestamp) ~ \(self?._lastResponseMaxTimestamp)")
             }
         }
         return _request
+    }
+    
+    private func setLastResponse(requestParameters: [String:AnyObject], responseMinTime: Int, responseMaxTime: Int) {
+        _lastMediaSearchParameters = requestParameters
+        if nil == _lastResponseMaxTimestamp {
+            _lastResponseMaxTimestamp = responseMaxTime
+        } else {
+            _lastResponseMaxTimestamp = max(_lastResponseMaxTimestamp!, responseMaxTime)
+        }
+        if nil == _lastResponseMinTimestamp {
+            _lastResponseMinTimestamp = responseMinTime
+        } else {
+            _lastResponseMinTimestamp = min(_lastResponseMinTimestamp!, responseMinTime)
+        }
+        
     }
     
     private func request<T: InstagramerModel>(partialURL: String, parameters: [String: AnyObject]?) -> InstagramerRequest<T> {
