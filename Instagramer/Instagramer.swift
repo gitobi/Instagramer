@@ -180,7 +180,7 @@ public class InstagramerMedia: InstagramerModel {
         _created = formatter.stringFromDate(date)
         
         
-        NSLog("\(_location)")
+//        NSLog("\(_location)")
     }
     
     override public var description: String {
