@@ -486,8 +486,6 @@ public class Instagramer {
         var partialURL = "media/search"
         _oAuth.replaceAccessParameters(&parameters)
         
-
-        
         var _request : InstagramerRequest<InstagramerMedia> = request(partialURL, parameters: parameters)
         _request.internalComplete { [weak self] (_models: [InstagramerMedia]) in
             if 0 < _models.count {
@@ -514,7 +512,6 @@ public class Instagramer {
         } else {
             _lastResponseMinTimestamp = min(_lastResponseMinTimestamp!, responseMinTime)
         }
-        
     }
     
     private func request<T: InstagramerModel>(partialURL: String, parameters: [String: AnyObject]?) -> InstagramerRequest<T> {
