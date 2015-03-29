@@ -48,11 +48,16 @@ public class InstagramerRequest<T: InstagramerModel> {
     public func complete(callback: ((models: [T]) -> Void)) -> Self {
         var internalCallbackComplete = _internalCallbackComplete
         completeJSON { (json: SwiftyJSON.JSON) in
-            var models = InstagramerModelCreate<T>.create(json)
-            if let valid = internalCallbackComplete {
-                    valid(models: models)
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                var models = InstagramerModelCreate<T>.create(json)
+                if let valid = internalCallbackComplete {
+                        valid(models: models)
+                }
+                dispatch_async(dispatch_get_main_queue()) {
+                    callback(models: models)
+                    return
+                }
             }
-            callback(models: models)
         }
         
         return self
@@ -85,6 +90,11 @@ public class InstagramerLocation: InstagramerModel {
         _name      = json["name"].stringValue
         _latitude  = json["latitude"].doubleValue
         _longitude = json["longitude"].doubleValue
+    }
+    
+    override public var description: String {
+        var str = "\(_id),\(_name),\(_latitude),\(_longitude)"
+        return str
     }
 }
 
@@ -168,6 +178,9 @@ public class InstagramerMedia: InstagramerModel {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         _created = formatter.stringFromDate(date)
+        
+        
+        NSLog("\(_location)")
     }
     
     override public var description: String {
@@ -459,8 +472,10 @@ public class Instagramer {
     public func mediaSearchPrev() -> InstagramerRequest<InstagramerMedia>? {
         if let valid = _lastMediaSearchParameters {
             var parameters = valid
-            parameters["min_timestamp"] = nil
-            parameters["max_timestamp"] = String(_lastResponseMinTimestamp! - 1)
+            let min = (_lastResponseMinTimestamp! - 1) - (60 * 60 * 24 * 7)
+            let max = _lastResponseMinTimestamp! - 1
+            parameters["min_timestamp"] = String(min)
+            parameters["max_timestamp"] = String(max)
             return mediaSearch(&parameters)
         }
         return nil
