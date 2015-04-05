@@ -85,6 +85,11 @@ public class InstagramerLocation: InstagramerModel {
     private var _latitude   : Double
     private var _longitude  : Double
     
+    public var id           : String { return _id }
+    public var name         : String { return _name }
+    public var latitude     : Double { return _latitude }
+    public var longitude    : Double { return _longitude }
+    
     init(json: JSON){
         _id        = json["id"].stringValue
         _name      = json["name"].stringValue
