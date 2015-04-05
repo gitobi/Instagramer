@@ -287,8 +287,7 @@ public class InstagramerOAuth {
             parameters.append("response_type=token")
             var urlString = _oauthURL + "?" + join("&", parameters)
 
-    //        NSLog("\(urlString)")
-
+//            NSLog("\(urlString)")
             var url = NSURL(string: urlString)
             UIApplication.sharedApplication().openURL(url!)
             
