@@ -160,7 +160,7 @@ public class InstagramerMedia: InstagramerModel {
     
     init(json: JSON){
         _attribution    = json["attribution"].string
-        _tags           = json["tags"].arrayObject as [String]
+        _tags           = json["tags"].arrayObject as! [String]
         _location       = InstagramerLocation(json: json["location"])
         _comments       = json["comments"]
         _filter         = json["filter"].stringValue
@@ -347,7 +347,7 @@ public class InstagramerOAuth {
                 
             } else if let components = NSURLComponents(URL: valid, resolvingAgainstBaseURL: false) {
                 // access denied
-                for item in components.queryItems as [NSURLQueryItem] {
+                for item in components.queryItems as! [NSURLQueryItem] {
                     parameters[item.name] = item.value?.stringByReplacingOccurrencesOfString("+", withString: " ")
                 }
             }
@@ -398,7 +398,7 @@ internal class InstagramerModelCreate<T: InstagramerModel> {
             let type = subJson["type"].string
             if ("image" == type) || ("video" == type) {
                 var model = InstagramerMedia(json: subJson)
-                models.append(model as T)
+                models.append(model as! T)
                 
             } else {
                 // TODO unknown type
@@ -425,7 +425,7 @@ public class Instagramer {
     }
 
     public func oAuth(accessTokenSaveKey: String?, forceRefleshAccessToken: Bool = false, redirectURI: String, permitted: (() -> Void), denied: (() -> Void)) -> Bool {
-        return _oAuth.oauth(accessTokenSaveKey, forceRefleshAccessToken: forceRefleshAccessToken, redirectURI: redirectURI, permitted, denied)
+        return _oAuth.oauth(accessTokenSaveKey, forceRefleshAccessToken: forceRefleshAccessToken, redirectURI: redirectURI, permitted: permitted, denied: denied)
     }
     
     public func oAuthHandle(callbackURL: NSURL?) -> Bool {
@@ -495,8 +495,8 @@ public class Instagramer {
             if 0 < _models.count {
                 self?.setLastResponse(parameters, responseMinTime: _models.last!.createdTime, responseMaxTime: _models[0].createdTime)
                 
-                var tmpMin = parameters["min_timestamp"] as String?
-                var tmpMax = parameters["max_timestamp"] as String?
+                var tmpMin = parameters["min_timestamp"] as! String?
+                var tmpMax = parameters["max_timestamp"] as! String?
                 NSLog("request  \(tmpMin) ~ \(tmpMax)")
                 NSLog("response \(self?._lastResponseMinTimestamp) ~ \(self?._lastResponseMaxTimestamp)")
             }

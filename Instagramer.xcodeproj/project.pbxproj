@@ -188,7 +188,7 @@
 		63F203411ABD488800A8227F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				TargetAttributes = {
 					63F2034B1ABD489B00A8227F = {
 						CreatedOnToolsVersion = 6.2;
@@ -313,6 +313,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
